@@ -4,9 +4,12 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Setting from './component/Setting';
 import Order from './component/Order';
 import Product from './component/Product';
+import AppNavbar from './component/AppNavbar';
+import 'bootstrap/dist/css/bootstrap.min.css';
 function App() {
   return (
     <div className="App">
+      <AppNavbar/>
       <BrowserRouter>
         <Switch>
           <Route path="/login" exact component={Login} />
