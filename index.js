@@ -1,14 +1,16 @@
-const express = require('express');
+const express = require("express");
 const app = express();
 
+app.use(express.json());
 
-app.get('/', (req, res)=>{
-    res.send("OK");
-})
+app.use('/api/auth', require('./routes/api/auth'));
 
+// if(process.env.NODE_ENV === 'production'){
+//     app.use(express.static('client/build'));
+//     app.get('*', (req, res) => {
+//         res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+//     });
+// }
 
-app.get('/api/auth', (req, res)=>{
-    res.send("OK");
-})
 
 app.listen(5000);

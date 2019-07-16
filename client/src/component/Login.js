@@ -1,0 +1,65 @@
+import React,{Component} from 'react';
+import axios from 'axios';
+import '../login.css';
+
+export default class Login extends Component{
+    constructor(prop){
+        super(prop);
+        this.state = {email:'', password:'', error:''};
+    }
+    change = e => {
+        this.setState({
+            [e.target.name] : e.target.value
+        });
+        
+    }
+    submitLogin(e) {
+        this.setState({error:''});
+
+        e.preventDefault();
+        if(!this.validateForm()){
+            this.setState({error:'Please insert email or password'});
+            return;
+        }
+        
+        const config  = {
+            headers:{
+                'Content-Type' : 'application/json'
+            }
+        }
+        
+        var request = {email : this.state.email, password : this.state.password};
+        const body = JSON.stringify(request);
+        
+        axios.post('/api/auth', body, config)
+        .then(response => {
+            console.log(response);
+        })
+        .catch(error => {
+            console.log(error);
+        });
+    }
+
+    //Basic validation.
+    validateForm() {
+        return this.state.email.length > 0 && this.state.password.length > 0;
+    }
+
+    render(){
+        return(
+        <div className="wrapper">
+            <div id="formContent">
+                <div className="iconWrapper">
+                    <img src="http://rocket-labs.com/images/logo.png" id="icon" alt="User Icon" />
+                </div>
+                <form>
+                    <input type="text" id="email" onChange={e=> this.change(e)} value={this.state.email} name="email" placeholder="email"/>
+                    <input type="password" id="password" onChange={e=> this.change(e)} value={this.state.password} name="password" placeholder="password"/>
+                    <label className="lblerror">{this.state.error ? this.state.error : ""}</label>
+                    <input type="submit" onClick={this.submitLogin.bind(this)} value="Log In"/>
+                </form>
+            </div>
+        </div>
+        );
+    }
+}
