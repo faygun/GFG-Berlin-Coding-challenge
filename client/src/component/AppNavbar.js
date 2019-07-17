@@ -8,12 +8,22 @@ import {
     NavLink,
     NavItem,
     Container } from 'reactstrap';
+import {logout, isAuthenticated, getName } from '../helper/jwt';
+import {withRouter} from 'react-router-dom'
 
 class AppNavbar extends Component{
     state = {
-        isOpen:false
+        isOpen:false,
+        self : this
     };
 
+    logoutUser = () =>{
+        //TODO
+        logout();
+        // window.location.href = "/login";
+        this.props.history.push('/login');
+    }
+      
     toogle = ()=>{
         this.setState({
             isOpen : !this.state.isOpen
@@ -21,6 +31,20 @@ class AppNavbar extends Component{
     };
 
     render(){
+        var authLink;
+
+        if(isAuthenticated()){
+        authLink =(  
+          <Fragment>
+            <NavItem>
+                <NavLink href="#" onClick={()=>{ this.logoutUser();}}>Logout</NavLink>
+            </NavItem>
+            <NavItem>
+                <NavLink className="text-white small mt-1">Welcome {getName()}</NavLink>
+            </NavItem>
+          </Fragment>
+          );
+        }
         return(
             <div>
                 <Navbar color="dark" dark expand="sm" className="mb-5">
@@ -29,15 +53,16 @@ class AppNavbar extends Component{
                         <NavbarToggler onClick={this.toogle}/>
                         <Collapse isOpen={this.state.isOpen} navbar>
                             <Nav className="ml-auto" navbar>
-                            <NavItem>
-                                <NavLink href="/product">Products</NavLink>
-                            </NavItem>
-                            <NavItem>
-                                <NavLink href="/order">Orders</NavLink>
-                            </NavItem>
-                            <NavItem>
-                                <NavLink href="/setting">Setting</NavLink>
-                            </NavItem>
+                                <NavItem>
+                                    <NavLink href="/product">Products</NavLink>
+                                </NavItem>
+                                <NavItem>
+                                    <NavLink  href="/order">Orders</NavLink>
+                                </NavItem>
+                                <NavItem>
+                                    <NavLink href="/setting">Setting</NavLink>
+                                </NavItem>
+                                {authLink}
                             </Nav>
                         </Collapse>
                     </Container>
@@ -47,4 +72,4 @@ class AppNavbar extends Component{
     }
 }
 
-export default AppNavbar;
+export default withRouter(AppNavbar);

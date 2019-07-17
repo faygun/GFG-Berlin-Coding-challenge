@@ -1,0 +1,4 @@
+{
+    "jwtSecret":"jwt_gfg_secret",
+    "mockAPI":"https://demo8515691.mockable.io/api"
+}

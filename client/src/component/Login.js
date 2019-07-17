@@ -2,6 +2,8 @@ import React,{Component} from 'react';
 import axios from 'axios';
 import '../login.css';
 
+import { isAuthenticated } from '../helper/jwt';
+
 export default class Login extends Component{
     constructor(prop){
         super(prop);
@@ -12,6 +14,10 @@ export default class Login extends Component{
             [e.target.name] : e.target.value
         });
         
+    }
+    componentDidMount(){
+        if(isAuthenticated())
+            this.props.history.push('/product');
     }
     submitLogin(e) {
         this.setState({error:''});
@@ -32,11 +38,13 @@ export default class Login extends Component{
         const body = JSON.stringify(request);
         
         axios.post('/api/auth', body, config)
-        .then(response => {
-            console.log(response);
+        .then(res => {
+            localStorage.setItem("x-auth-token", res.data.token);
+            localStorage.setItem("user", JSON.stringify(res.data));
+            this.props.history.push('/product');
         })
-        .catch(error => {
-            console.log(error);
+        .catch(err => {
+            console.log(err);
         });
     }
 

@@ -1,25 +1,28 @@
 import React from 'react';
 import Login from './component/Login';
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route } from "react-router-dom";
 import Setting from './component/Setting';
 import Order from './component/Order';
 import Product from './component/Product';
 import AppNavbar from './component/AppNavbar';
 import 'bootstrap/dist/css/bootstrap.min.css';
-function App() {
-  return (
-    <div className="App">
-      <AppNavbar/>
-      <BrowserRouter>
-        <Switch>
-          <Route path="/login" exact component={Login} />
-          <Route path="/setting" exact component={Setting} />
-          <Route path="/order" exact component={Order} />
-          <Route path="/product" exact component={Product} />
-        </Switch>
-      </BrowserRouter>
-    </div>
-  );
+import AuthenticatedComponent from './component/AuthenticatedComponent';
+
+function App(){
+    return (
+        <BrowserRouter>
+        <div className="App">
+          <AppNavbar/>
+            <AuthenticatedComponent>
+              <Route exact path="/login" component={Login} />
+              <Route exact path="/setting" component={Setting} />
+              <Route exact path="/order" component={Order} />
+              <Route exact path="/product" component={Product} />
+            </AuthenticatedComponent>
+          </div>
+        </BrowserRouter>
+    );
+  
 }
 
 export default App;
