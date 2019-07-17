@@ -13,8 +13,7 @@ import {withRouter} from 'react-router-dom'
 
 class AppNavbar extends Component{
     state = {
-        isOpen:false,
-        self : this
+        isOpen:false
     };
 
     logoutUser = () =>{
