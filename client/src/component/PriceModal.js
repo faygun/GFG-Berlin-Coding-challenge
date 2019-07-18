@@ -52,9 +52,8 @@ export default class PriceModal extends Component {
           this.setState({error: "Start date should not be greater than end date"});
           return;
         }
-          newProduct.saleEndDate = e.currentTarget.value
+        newProduct.saleEndDate = e.currentTarget.value
       }
-      
       this.setState({product: newProduct});
     }
 

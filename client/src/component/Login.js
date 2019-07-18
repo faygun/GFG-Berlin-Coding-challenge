@@ -69,7 +69,7 @@ export default class Login extends Component{
                     <label className="lblerror">{this.state.error ? this.state.error : ""}</label>
                     {this.state.loadingType ? 
                         (getSpinner()) : 
-                        (<input type="submit" onClick={this.submitLogin.bind(this)} value="Log In"/>)}
+                        (<input className="login" type="submit" onClick={this.submitLogin.bind(this)} value="Log In"/>)}
                 </form>
             </div>
         </div>
