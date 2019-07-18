@@ -29,17 +29,6 @@ export default class PriceModal extends Component {
     }
     
     updateData() {
-      // if(this.state.product.saleEndDate < this.state.product.saleStartDate){
-      //     alert('Start date should not be greater than end date');
-      //     var product = this.state.product;
-      //     product.saleEndDate = this.props.row.saleEndDate;
-      //     product.saleStartDate = this.props.row.saleStartDate;
-      //     console.log(this.props.row);
-      //     this.setState({product:product});
-      //     return;
-      // }
-        
-
       this.props.onUpdate(this.state.salePrice);
     }
 
@@ -68,7 +57,7 @@ export default class PriceModal extends Component {
       return (
         <div>
             <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                <ModalHeader toggle={this.toggle}>Modal title</ModalHeader>
+                <ModalHeader toggle={this.toggle}>Sale Information</ModalHeader>
                 <ModalBody>
                     <Form onSubmit={this.onSubmit}>
                         <FormGroup>
