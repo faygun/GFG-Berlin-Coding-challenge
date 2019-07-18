@@ -2,7 +2,7 @@ import React,{Component} from 'react';
 import {isAuthenticated, logout} from '../helper/jwt';
 import axios from 'axios';
 import {withRouter} from 'react-router-dom'
-import { getConfig } from '../helper/helper';
+import { getConfig, getSpinner } from '../helper/helper';
 
 class AuthenticatedComponent extends Component{
     constructor(props){
@@ -36,7 +36,7 @@ class AuthenticatedComponent extends Component{
         if (user === undefined) {
           return (
             <div className="text-center">
-              Loading...
+              {getSpinner(128, 128)}
             </div>
           );
         }

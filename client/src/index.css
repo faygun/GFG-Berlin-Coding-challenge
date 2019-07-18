@@ -18,3 +18,9 @@ code {
     margin: 0 auto;
     cursor: pointer;
 }
+
+.editableGrid{
+  display: block;
+  width: 80%;
+  margin: 0 auto;
+}

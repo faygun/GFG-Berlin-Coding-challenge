@@ -2,7 +2,7 @@ import React from 'react';
 
 const Setting = () =>{
     return(
-        <div>Setting Page</div>
+        <h3 className="text-center">Setting Page</h3>
     )
 }
 

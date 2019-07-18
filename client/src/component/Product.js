@@ -54,20 +54,24 @@ export default class Product extends Component{
         };
         
 return(
-            <BootstrapTable data={products} 
-                        striped hover 
-                        cellEdit={ cellEditProp }>
-                <TableHeaderColumn isKey dataField='id'>Product ID</TableHeaderColumn>
-                <TableHeaderColumn editable={false} dataField='title'>Title</TableHeaderColumn>
-                <TableHeaderColumn editable={false} dataField='brand'>Brand</TableHeaderColumn>
-                <TableHeaderColumn editable={false} dataField='image' dataFormat={this.imageModal}>Image</TableHeaderColumn>
-                <TableHeaderColumn hidden={true} dataField='thumbnail'></TableHeaderColumn>
-                <TableHeaderColumn dataField='price' editable={{ validator: this.validator }} >Price (€)</TableHeaderColumn>
-                <TableHeaderColumn customEditor={{getElement: this.salePriceModal}} editable={{ validator: this.validator }} dataField='salePrice'>Sale Price (€)</TableHeaderColumn>
-                <TableHeaderColumn hidden={true} dataField='saleStartDate'></TableHeaderColumn>
-                <TableHeaderColumn hidden={true} dataField='saleEndDate'></TableHeaderColumn>
-                <TableHeaderColumn  dataField='stock' editable={{ validator: this.validator }}>Stock</TableHeaderColumn>
-            </BootstrapTable>
-        )
-    }
+    <div>
+        <BootstrapTable data={products} 
+                    options={{ noDataText: 'Loading...' }}
+                    striped hover 
+                    pagination
+                    containerClass="editableGrid"
+                    cellEdit={ cellEditProp }>
+            <TableHeaderColumn isKey dataField='id'>Product ID</TableHeaderColumn>
+            <TableHeaderColumn editable={false} dataField='title'>Title</TableHeaderColumn>
+            <TableHeaderColumn editable={false} dataField='brand'>Brand</TableHeaderColumn>
+            <TableHeaderColumn editable={false} dataField='image' dataFormat={this.imageModal}>Image</TableHeaderColumn>
+            <TableHeaderColumn hidden={true} dataField='thumbnail'></TableHeaderColumn>
+            <TableHeaderColumn dataField='price' editable={{ validator: this.validator }} >Price (€)</TableHeaderColumn>
+            <TableHeaderColumn customEditor={{getElement: this.salePriceModal}} editable={{ validator: this.validator }} dataField='salePrice'>Sale Price (€)</TableHeaderColumn>
+            <TableHeaderColumn hidden={true} dataField='saleStartDate'></TableHeaderColumn>
+            <TableHeaderColumn hidden={true} dataField='saleEndDate'></TableHeaderColumn>
+            <TableHeaderColumn  dataField='stock' editable={{ validator: this.validator }}>Stock</TableHeaderColumn>
+        </BootstrapTable>
+    </div>
+    )}
 }

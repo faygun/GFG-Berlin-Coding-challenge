@@ -1,13 +1,13 @@
 import React,{Component} from 'react';
 import axios from 'axios';
 import '../login.css';
-
 import { isAuthenticated } from '../helper/jwt';
+import { getSpinner } from '../helper/helper';
 
 export default class Login extends Component{
     constructor(prop){
         super(prop);
-        this.state = {email:'', password:'', error:''};
+        this.state = {email:'', password:'', error:'', loadingType:''};
     }
     change = e => {
         this.setState({
@@ -28,6 +28,8 @@ export default class Login extends Component{
             return;
         }
         
+        this.setState({loadingType:'cubes'});
+
         const config  = {
             headers:{
                 'Content-Type' : 'application/json'
@@ -39,6 +41,7 @@ export default class Login extends Component{
         
         axios.post('/api/auth', body, config)
         .then(res => {
+            this.setState({loadingType:''});
             localStorage.setItem("x-auth-token", res.data.token);
             localStorage.setItem("user", JSON.stringify(res.data));
             this.props.history.push('/product');
@@ -64,7 +67,9 @@ export default class Login extends Component{
                     <input type="text" id="email" onChange={e=> this.change(e)} value={this.state.email} name="email" placeholder="email"/>
                     <input type="password" id="password" onChange={e=> this.change(e)} value={this.state.password} name="password" placeholder="password"/>
                     <label className="lblerror">{this.state.error ? this.state.error : ""}</label>
-                    <input type="submit" onClick={this.submitLogin.bind(this)} value="Log In"/>
+                    {this.state.loadingType ? 
+                        (getSpinner()) : 
+                        (<input type="submit" onClick={this.submitLogin.bind(this)} value="Log In"/>)}
                 </form>
             </div>
         </div>

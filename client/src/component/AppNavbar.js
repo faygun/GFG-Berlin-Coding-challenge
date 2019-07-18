@@ -17,9 +17,7 @@ class AppNavbar extends Component{
     };
 
     logoutUser = () =>{
-        //TODO
         logout();
-        // window.location.href = "/login";
         this.props.history.push('/login');
     }
       
