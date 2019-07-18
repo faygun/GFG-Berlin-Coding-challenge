@@ -15,7 +15,7 @@ export default class ImageModal extends Component {
         const { isOpen } = this.state;
       return (
         <div>
-            <img className="thumbnail" onClick={()=>this.setState({isOpen:true})} src={this.state.product.thumbnail}/>
+            <img className="thumbnail" alt={this.state.product.title} onClick={()=>this.setState({isOpen:true})} src={this.state.product.thumbnail}/>
             {isOpen && (
                 <Lightbox
                     mainSrc={this.state.product.image}

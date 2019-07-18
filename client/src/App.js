@@ -13,12 +13,12 @@ function App(){
         <BrowserRouter>
         <div className="App">
           <AppNavbar/>
-            {/* <AuthenticatedComponent> */}
+            <AuthenticatedComponent>
               <Route exact path="/login" component={Login} />
               <Route exact path="/setting" component={Setting} />
               <Route exact path="/order" component={Order} />
               <Route exact path="/product" component={Product} />
-            {/* </AuthenticatedComponent> */}
+            </AuthenticatedComponent>
           </div>
         </BrowserRouter>
     );

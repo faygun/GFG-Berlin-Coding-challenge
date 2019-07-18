@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import {Modal, Button, ModalHeader, ModalFooter, ModalBody, Form, FormGroup, Label, Input} from 'reactstrap';
+import {Modal, Alert, Button, ModalHeader, ModalFooter, ModalBody, Form, FormGroup, Label, Input} from 'reactstrap';
 
 export default class PriceModal extends Component {
     constructor(props) {
@@ -9,7 +9,8 @@ export default class PriceModal extends Component {
         salePrice : props.defaultValue,
         product: props.row,
         open: true,
-        modal: true
+        modal: true,
+        error:""
       };
 
       this.toggle = this.toggle.bind(this);
@@ -21,6 +22,9 @@ export default class PriceModal extends Component {
         }));
       }
 
+      toggleAlert = () =>{
+        this.setState({error:""});
+      }
   
     onSubmit = e =>{
         e.preventDefault();
@@ -34,18 +38,24 @@ export default class PriceModal extends Component {
 
     dateChange(e){
       let newProduct = this.state.product;
+      this.setState({error:""});
+
       if(e.currentTarget.name === 'saleStartDate'){
-          newProduct.saleStartDate = e.currentTarget.value
+        if(newProduct.saleEndDate < e.currentTarget.value){
+          this.setState({error: "Start date should not be greater than end date"});
+          // alert('Start date should not be greater than end date');
+          return;
+        }
+        newProduct.saleStartDate = e.currentTarget.value
       }
       else{
+        if(newProduct.saleStartDate > e.currentTarget.value){
+          this.setState({error: "Start date should not be greater than end date"});
+          // alert('Start date should not be greater than end date');
+          return;
+        }
           newProduct.saleEndDate = e.currentTarget.value
       }
-        
-      if(newProduct.saleEndDate < newProduct.saleStartDate){
-        alert('Start date should not be greater than end date');
-        return;
-      }
-
       this.setState({product: newProduct});
     }
 
@@ -95,7 +105,10 @@ export default class PriceModal extends Component {
                             />
                         </FormGroup>
                     </Form>    
-                    
+                    {this.state.error && (
+                      <Alert color="danger" toggle={this.toggleAlert}>
+                          {this.state.error}
+                      </Alert>)}
                 </ModalBody>
                 <ModalFooter>
                     <Button color="primary" onClick={this.updateData}>Save</Button>{' '}

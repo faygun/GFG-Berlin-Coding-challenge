@@ -44,7 +44,7 @@ export default class Login extends Component{
             this.props.history.push('/product');
         })
         .catch(err => {
-            console.log(err);
+            throw err;
         });
     }
 

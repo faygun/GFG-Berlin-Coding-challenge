@@ -3,6 +3,8 @@ import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
 import PriceModal from './PriceModal';
 import ImageModal from './ImageModal';
+import axios from 'axios';
+import { getConfig } from '../helper/helper';
 
 export default class Product extends Component{
     constructor(props){
@@ -12,27 +14,37 @@ export default class Product extends Component{
         };
     }
     componentDidMount(){
-        this.setState({
-            products : [{id:1, title:"Jean", brand:"Levis", thumbnail:"https://placeimg.com/50/50/any", image:"https://placeimg.com/500/500/any", price : "55", salePrice: "60", saleStartDate:"2019-08-01", saleEndDate : "2019-09-01", stock: 200},
-                        {id:2, title:"Jean", brand:"Wrangler", thumbnail:"https://placeimg.com/50/50/any", image:"https://placeimg.com/500/500/any", price : "85", salePrice: "90", saleStartDate:"2019-08-27", saleEndDate : "2019-10-01", stock: 400}]
+
+        axios.get('/api/product', getConfig())
+        .then(res=> {
+            this.setState({products:res.data.products});
+        }).catch(err=>{
+            throw err;
         })
     }
 
+    // Custom modals
     imageModal = (cell, row) =>{
         return(
             <ImageModal row={row}/>
         );
     }
+    salePriceModal = (onUpdate, props) => (<PriceModal onUpdate={ onUpdate } {...props}/>)
+    
+    // validation
+    validator = (value, row) =>{
+        let newValue = Number(value);
+        if(!(Number.isInteger(newValue) && newValue >= 0))
+          return 'this value must be a integer!';
 
+        return true;
+      }
     render(){
         const products = this.state.products;
 
         const cellEditProp = {
             mode: 'click',
-            beforeSaveCell: (row, cellName, cellValue)=>{
-                let newValue = Number(cellValue);
-                return Number.isInteger(newValue) && newValue >= 0;
-            },
+            blurToSave:true,
             afterSaveCell:(row, cellName, cellValue) =>{
                 let data = this.state.products;
                 console.log(row);
@@ -40,8 +52,6 @@ export default class Product extends Component{
                 this.setState({products:data});
             }
         };
-        
-        const salePriceModal = (onUpdate, props) => (<PriceModal onUpdate={ onUpdate } {...props}/>)
         
 return(
             <BootstrapTable data={products} 
@@ -52,11 +62,11 @@ return(
                 <TableHeaderColumn editable={false} dataField='brand'>Brand</TableHeaderColumn>
                 <TableHeaderColumn editable={false} dataField='image' dataFormat={this.imageModal}>Image</TableHeaderColumn>
                 <TableHeaderColumn hidden={true} dataField='thumbnail'></TableHeaderColumn>
-                <TableHeaderColumn dataField='price' >Price (€)</TableHeaderColumn>
-                <TableHeaderColumn customEditor={{getElement:salePriceModal}} dataField='salePrice'>Sale Price (€)</TableHeaderColumn>
+                <TableHeaderColumn dataField='price' editable={{ validator: this.validator }} >Price (€)</TableHeaderColumn>
+                <TableHeaderColumn customEditor={{getElement: this.salePriceModal}} editable={{ validator: this.validator }} dataField='salePrice'>Sale Price (€)</TableHeaderColumn>
                 <TableHeaderColumn hidden={true} dataField='saleStartDate'></TableHeaderColumn>
                 <TableHeaderColumn hidden={true} dataField='saleEndDate'></TableHeaderColumn>
-                <TableHeaderColumn  dataField='stock'>Stock</TableHeaderColumn>
+                <TableHeaderColumn  dataField='stock' editable={{ validator: this.validator }}>Stock</TableHeaderColumn>
             </BootstrapTable>
         )
     }

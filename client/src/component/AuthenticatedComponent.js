@@ -1,7 +1,8 @@
 import React,{Component} from 'react';
-import {getJwt} from '../helper/jwt';
+import {isAuthenticated, logout} from '../helper/jwt';
 import axios from 'axios';
 import {withRouter} from 'react-router-dom'
+import { getConfig } from '../helper/helper';
 
 class AuthenticatedComponent extends Component{
     constructor(props){
@@ -13,28 +14,19 @@ class AuthenticatedComponent extends Component{
     }
 
     componentDidMount(){
-        const jwt = getJwt();
-
-        if(!jwt){
+        if(!isAuthenticated()){
             this.setState({
                 user: null
               });
               this.props.history.push('/login');
         }
 
-        const config = {
-          headers:{
-              "Content-type":"application/json"
-          }
-        };
-        config.headers['x-auth-token'] = jwt;
-        
-        axios.get('/api/user', config)
+        axios.get('/api/user', getConfig())
         .then(res=>{
             this.setState({user:res.data});
         }).catch(err=>{
-            localStorage.removeItem('x-auth-token');
-            localStorage.removeItem('user');
+            logout();
+            this.props.history.push('/login');
         })
 
     }
@@ -43,15 +35,12 @@ class AuthenticatedComponent extends Component{
         const { user } = this.state;
         if (user === undefined) {
           return (
-            <div>
+            <div className="text-center">
               Loading...
             </div>
           );
         }
-    
-        // if (user === null) {
-        //   this.props.history.push('/login');
-        // }
+
         return this.props.children;
       }
 }
