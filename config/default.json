@@ -1,4 +1,6 @@
 {
     "jwtSecret":"jwt_gfg_secret",
-    "mockAPI":"https://demo8515691.mockable.io/api"
+    "mockAPI":"https://demo8515691.mockable.io/api",
+    "email":"test@test.com",
+    "password":"test123"
 }

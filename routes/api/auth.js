@@ -7,6 +7,12 @@ const auth = require('../../middleware/auth');
 
 
 router.post('/',(req, res)=>{
+    var {email, password} = req.body;
+
+    //Fake control
+    if(email !== config.get('email') || password !== config.get('password'))
+        return res.status(401).json("Invalid username or password");
+
     axios.post(`${config.get("mockAPI")}/auth`, req)
         .then(response => {
             if(!response.data){

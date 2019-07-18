@@ -18,6 +18,7 @@ function App(){
               <Route exact path="/setting" component={Setting} />
               <Route exact path="/order" component={Order} />
               <Route exact path="/product" component={Product} />
+              <Route exact path="/" component={Product} />
             </AuthenticatedComponent>
           </div>
         </BrowserRouter>

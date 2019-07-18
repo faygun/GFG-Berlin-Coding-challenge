@@ -47,7 +47,7 @@ export default class Login extends Component{
             this.props.history.push('/product');
         })
         .catch(err => {
-            throw err;
+            this.setState({loadingType:'', error:err.response.data});
         });
     }
 
