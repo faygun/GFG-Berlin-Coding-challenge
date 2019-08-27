@@ -5,6 +5,8 @@ import PriceModal from './PriceModal';
 import ImageModal from './ImageModal';
 import axios from 'axios';
 import { getConfig } from '../helper/helper';
+import { getProductData } from '../helper/productHelper';
+import Title from './Title';
 
 export default class Product extends Component{
     constructor(props){
@@ -14,13 +16,11 @@ export default class Product extends Component{
         };
     }
     componentDidMount(){
+        getProductData().then((response) =>{
+            console.log(response);
+            this.setState({products:response.products})
+        });
 
-        axios.get('/api/product', getConfig())
-        .then(res=> {
-            this.setState({products:res.data.products});
-        }).catch(err=>{
-            throw err;
-        })
     }
 
     // Custom modals
@@ -30,7 +30,7 @@ export default class Product extends Component{
         );
     }
     salePriceModal = (onUpdate, props) => (<PriceModal onUpdate={ onUpdate } {...props}/>)
-    
+
     // validation
     validator = (value, row) =>{
         let newValue = Number(value);
@@ -52,12 +52,13 @@ export default class Product extends Component{
                 this.setState({products:data});
             }
         };
-        
+
 return(
     <div>
-        <BootstrapTable data={products} 
+        <Title name="Product Page"></Title>
+        <BootstrapTable data={products}
                     options={{ noDataText: 'Loading...' }}
-                    striped hover 
+                    striped hover
                     pagination
                     containerClass="editableGrid"
                     cellEdit={ cellEditProp }>

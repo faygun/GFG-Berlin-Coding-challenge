@@ -1,8 +1,9 @@
 import React from 'react';
+import Title from './Title';
 
 const Order = () =>{
     return(
-        <h3 className="text-center">Order Page</h3>
+        <Title name="Order Page"></Title>
     )
 }
 
